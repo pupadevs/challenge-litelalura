@@ -9,11 +9,15 @@ public class MenuFindByLanguage {
     @Autowired
     private SearchBookByLanguageService service;
     public void MenuLanguage(int num){
-
+        String result;
         switch (num){
-            case 1:service.findBookbyLanguage("ES");
+            case 1:
+                 result = service.findBookbyLanguage("ES");
+                System.out.println(result);
                 break;
-            case 2:service.findBookbyLanguage("EN");
+            case 2: result = service.findBookbyLanguage("EN");
+                System.out.println(result);
+
                 break;
             case 3:service.findBookbyLanguage("FR");
                 break;

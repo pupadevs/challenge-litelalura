@@ -3,8 +3,7 @@ package com.libreria.peterson.domain.entity;
 import com.libreria.peterson.domain.dto.AuthorDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+
 import org.hibernate.annotations.GenericGenerator;
 
 
@@ -25,7 +24,7 @@ public class Author {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    private String id;
     //@Column(unique = true)
     private String name;
     private String birth_year;
@@ -35,7 +34,7 @@ public class Author {
     private List<Book> books;
 
     public Author(AuthorDTO data){
-    this.id = UUID.randomUUID();
+    this.id = UUID.randomUUID().toString();
         this.name = data.name();
         this.birth_year = data.birth_year();
         this.death_year = data.death_year();

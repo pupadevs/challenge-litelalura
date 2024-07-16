@@ -4,11 +4,16 @@ import com.libreria.peterson.app.service.SearchBookByTitleService;
 import com.libreria.peterson.app.service.ShowAllAuthorsService;
 import com.libreria.peterson.app.service.ShowAllBookService;
 import com.libreria.peterson.app.service.ShowAuthorByYearService;
+import com.libreria.peterson.domain.entity.Author;
+import com.libreria.peterson.domain.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class Menu {
@@ -36,23 +41,24 @@ public class Menu {
     }
 
     public void principal() {
-        int option = 1;
+        int option;
         String texto = """
                 Seleccione un lenguaje
                 1. Español [Es]
-                2. Ingles [En]
-                3. Frances [Fr]
+                2. Inglés [En]
+                3. Frances [Fr.]
                 """;
-        String menu = "Menú:\n" +
-                "1. Buscar Libro por título\n" +
-                "2. Mostrar todos los libros\n" +
-                "3. Listar todos los autores\n" +
-                "4. Mostrar Autores vivos en determinado año\n" +
-                "5. Buscar Libro por un determinado idioma\n" +
-                "0. Salir\n" +
-                "Seleccione una opción: ";
+        String menu = """
+                Menú:
+                1. Buscar Libro por título
+                2. Mostrar todos los libros
+                3. Listar todos los autores
+                4. Mostrar Autores vivos en determinado año
+                5. Buscar Libro por un determinado idioma
+                0. Salir
+                Seleccione una opción:\s""";
 
-        while (option != 0 ) {
+        while (true) {
             System.out.println(menu);
             option = input.nextInt();
 
@@ -64,7 +70,8 @@ public class Menu {
                         String title = input.nextLine();
                         System.out.println(title);
                       //
-                        searchService.FindBook(title);
+                       Book book =searchService.FindBook(title);
+                        System.out.println(book);
                     } catch (TitleExistsException f) {
                         System.err.println(f.getMessage());
                     } catch (IOException | InterruptedException e) {
@@ -74,17 +81,23 @@ public class Menu {
                     }
                     break;
                 case 2:
-                    showAllBookService.showAll();
+                   List<Book> books= showAllBookService.showAll();
+                    books.stream()
+                            .sorted(Comparator.comparing(Book::getTitle)).collect(Collectors.toList()).
+                            forEach( bk -> System.out.println(bk.toString()));
                     break;
                 case 3:
-                    showAllAuthorsService.showAllAuthors();
+                    List<Author> authors = showAllAuthorsService.showAllAuthors();
+                    authors.forEach(au -> System.out.println(au.toString()));
                     // Implementar opción 3
                     break;
                 case 4:
                     input.nextLine();
                     System.out.println("Escriba el año del author");
                     String ano = input.nextLine();
-                    showAuthorByYear.showAuthorsByYear(ano);
+                   List<Author> authorList= showAuthorByYear.showAuthorsByYear(ano);
+                    authorList.stream().sorted(Comparator.comparing(Author::getBirth_year)).
+                            collect(Collectors.toList()).forEach(System.out::println);
                     break;
                 case 5:
                     System.out.println(texto);

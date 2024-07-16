@@ -11,14 +11,9 @@ import java.net.http.HttpResponse;
 @Component
 public class ApiRequest implements ApiRequestInterface {
     private static final String URL_BASE = "https://gutendex.com/books/?search=";
-   // private final RestTemplate restTemplate;
 
-    //Creamos un constructor con RestTemplate
-  /*  public ApiRequest(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }*/
     @Override
-    public  String makeRequest(String title) throws IOException, InterruptedException {
+    public  String makeRequest(String title) throws  InterruptedException {
         // Crear un cliente HTTP
         HttpClient client = HttpClient.newHttpClient();
 
@@ -30,16 +25,15 @@ public class ApiRequest implements ApiRequestInterface {
 
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        //    client.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
+
         }
 
 
-        // client.close();
-        /* Lanzo exception */
-        //  if (response.statusCode() == 400) {
-        //  throw new CurrencyNotFoundException();
-        //   }
+
 
         return response.body();
     }

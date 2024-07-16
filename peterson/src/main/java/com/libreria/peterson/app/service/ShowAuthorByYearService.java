@@ -15,11 +15,10 @@ public class ShowAuthorByYearService {
     @Autowired
    private AuthorRepository authorRepository;
 
-    public void showAuthorsByYear(String year){
+    public List<Author> showAuthorsByYear(String year){
 
     List<Author> authorList = authorRepository.findAuthorsAliveInYear(year);
-//
-    authorList.stream().sorted(Comparator.comparing(Author::getBirth_year)).collect(Collectors.toList()).forEach(System.out::println);
 
+return authorList;
     }
 }

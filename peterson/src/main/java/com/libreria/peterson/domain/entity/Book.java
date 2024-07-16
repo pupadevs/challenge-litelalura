@@ -3,7 +3,6 @@ package com.libreria.peterson.domain.entity;
 import com.libreria.peterson.domain.dto.BookDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import java.util.UUID;
 
